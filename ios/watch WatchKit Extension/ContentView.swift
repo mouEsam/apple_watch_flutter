@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     @ObservedObject var viewModel: WatchViewModel = WatchViewModel()
     
     var body: some View {
@@ -15,7 +16,7 @@ struct ContentView: View {
             Text("Counter: \(viewModel.counter)")
                 .padding()
             Button(action: {
-                viewModel.sendDataMessage(for: .sendCounterToFlutter, data: ["counter": viewModel.counter + 1])
+                viewModel.incrementCounter()
             }) {
                 Text("+ by 2")
             }

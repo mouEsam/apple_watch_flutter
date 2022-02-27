@@ -9,16 +9,8 @@ import Foundation
 import WatchConnectivity
 
 class WatchViewModel: NSObject, ObservableObject {
-    var session: WCSession
+    let session: WCSession
     @Published var counter = 0
-    
-    enum WatchReceiveMethod: String {
-        case sendCounterToNative
-    }
-    
-    enum WatchSendMethod: String {
-        case sendCounterToFlutter
-    }
     
     init(session: WCSession = .default) {
         self.session = session
@@ -27,13 +19,21 @@ class WatchViewModel: NSObject, ObservableObject {
         session.activate()
     }
     
-    func sendDataMessage(for method: WatchSendMethod, data: [String: Any] = [:]) {
-        sendMessage(for: method.rawValue, data: data)
+    func incrementCounter() {
+        sendDataMessage(for: .sendCounterToFlutter, data: ["counter": counter + 1])
     }
     
 }
 
 extension WatchViewModel: WCSessionDelegate {
+    
+    enum WatchReceiveMethod: String {
+        case sendCounterToNative
+    }
+    
+    enum WatchSendMethod: String {
+        case sendCounterToFlutter
+    }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {}
     
@@ -48,6 +48,10 @@ extension WatchViewModel: WCSessionDelegate {
                 self.counter = (message["data"] as? Int) ?? 0
             }
         }
+    }
+    
+    func sendDataMessage(for method: WatchSendMethod, data: [String: Any] = [:]) {
+        sendMessage(for: method.rawValue, data: data)
     }
     
     func sendMessage(for method: String, data: [String: Any] = [:]) {
