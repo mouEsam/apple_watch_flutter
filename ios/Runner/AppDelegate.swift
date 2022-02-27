@@ -43,7 +43,6 @@ import WatchConnectivity
                           }
                     let watchData: [String: Any] = ["method": method, "data": data]
                     
-                    // Pass the receiving message to Apple Watch
                     watchSession.sendMessage(watchData, replyHandler: nil, errorHandler: nil)
                     result(true)
                 default:

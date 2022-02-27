@@ -12,12 +12,10 @@ class WatchViewModel: NSObject, ObservableObject {
     var session: WCSession
     @Published var counter = 0
     
-    // Add more cases if you have more receive method
     enum WatchReceiveMethod: String {
         case sendCounterToNative
     }
     
-    // Add more cases if you have more sending method
     enum WatchSendMethod: String {
         case sendCounterToFlutter
     }
